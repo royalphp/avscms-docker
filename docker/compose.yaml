@@ -1,0 +1,37 @@
+services:
+  server:
+    image: ${IMAGE_NAME:-app}-server:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      HTTP_HOST: ${HTTP_HOST:-localhost}
+      MYSQL_USER: ${MYSQL_USER:-avscms}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-avscms}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+    volumes:
+      - ../:/var/www/html:rw
+    ports:
+      - target: 80
+        published: ${HTTP_PORT:-80}
+        protocol: tcp
+
+  database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: ${MYSQL_USER:-avscms}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-avscms}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+    healthcheck:
+      test: mysqladmin ping --host=localhost --user=${MYSQL_USER:-avscms} --password=${MYSQL_PASSWORD:-password}
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - db-data:/var/lib/mysql:rw
+      - ./mysql/initdb:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  db-data:

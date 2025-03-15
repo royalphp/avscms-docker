@@ -1,0 +1,13 @@
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: app_prod
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  database:
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
