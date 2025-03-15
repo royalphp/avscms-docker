@@ -1,7 +1,7 @@
 <?php
 defined('_VALID') or die('Restricted Access!');
 $config = array();
-$config['BASE_URL'] = 'http://www.yourdomain.com';
+$config['BASE_URL'] = sprintf('http://%s', getenv('HTTP_HOST') ?: 'www.yourdomain.com');
 $config['RELATIVE'] = '';
 $config['BASE_DIR'] = dirname(dirname(__FILE__));
 $config['TMP_DIR'] = $config['BASE_DIR']. '/tmp';
@@ -23,5 +23,5 @@ $config['HD_URL'] = $config['BASE_URL'].'/media/videos/hd';
 $config['IPHONE_DIR'] = $config['BASE_DIR'].'/media/videos/iphone';
 $config['IPHONE_URL'] = $config['BASE_URL'].'/media/videos/iphone';
 $config['H264_DIR'] = $config['BASE_DIR'].'/media/videos/h264';
-$config['H264_URL'] = $config['BASE_URL'].'/media/videos/h264';		
+$config['H264_URL'] = $config['BASE_URL'].'/media/videos/h264';
 ?>

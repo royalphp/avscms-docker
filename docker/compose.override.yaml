@@ -1,0 +1,17 @@
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: app_dev
+    tty: true
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  database:
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    ports:
+      - target: 3306
+        published: ${DB_PORT:-3306}
+        protocol: tcp
